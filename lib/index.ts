@@ -283,7 +283,7 @@ function getClassPrototypeMembers(ctor: any): dom.ClassMember[] {
 	const members = <dom.ClassMember[]> names
 		.filter(n => !isNameToSkip(n))
 		.map(name =>
-			getPrototypeMember(name, Object.getOwnPropertyDescriptor(ctor.prototype, name).value))
+			getPrototypeMember(name, Object.getOwnPropertyDescriptor(ctor.prototype, name)!.value))
 		.filter(m => m !== undefined);
 	members.sort();
 	return members;
@@ -334,6 +334,7 @@ function getClassInstanceMembers(ctor: any): dom.ClassMember[] {
 		}
 		ts.forEachChild(node, visit);
 	}
+	visit(parseFunctionBody(ctor));
 
 	return members;
 }
